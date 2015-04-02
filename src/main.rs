@@ -8,6 +8,7 @@ pub mod types;
 pub mod entity;
 
 use std::cell::RefCell;
+use std::rc::Rc;
 use opengl_graphics::{
     GlGraphics,
     OpenGL,
@@ -24,12 +25,12 @@ fn main() {
             size: [win_width, win_height],
             fullscreen: false,
             exit_on_esc: true,
-            samples: 4,
+            samples: 0,
         }
     );
 
-    let window = RefCell::new(window);
+    let window = Rc::new(RefCell::new(window));
 
-    for e in piston::events(&window) {
+    for e in piston::events(window) {
     }
 }
