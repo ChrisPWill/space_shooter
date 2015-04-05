@@ -3,9 +3,11 @@ extern crate piston;
 extern crate graphics;
 extern crate sdl2_window;
 extern crate opengl_graphics;
+extern crate sprite;
 
 pub mod types;
 pub mod entity;
+pub mod assets;
 
 use std::cell::RefCell;
 use std::rc::Rc;

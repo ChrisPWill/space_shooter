@@ -15,3 +15,5 @@ git = "https://github.com/pistondevelopers/opengl_graphics"
 [dependencies.piston2d-graphics]
 git = "https://github.com/pistondevelopers/graphics"
 
+[dependencies.piston2d-sprite]
+git = "https://github.com/PistonDevelopers/sprite"
