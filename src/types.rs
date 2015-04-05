@@ -6,6 +6,12 @@ pub struct Vec2F {
     pub y: f64,
 }
 
+impl Vec2F {
+    pub fn new() -> Vec2F {
+        Vec2F{x: 0.0, y: 0.0}
+    }
+}
+
 impl Add for Vec2F {
     type Output = Vec2F;
 

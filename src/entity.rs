@@ -1,9 +1,22 @@
+use std::path::Path;
+
 use super::types::Vec2F;
+use super::assets::AssetManager;
 
 struct Player {
     loc: Vec2F,
     vel: Vec2F,
     sprite: u64,
+}
+
+impl Player {
+    fn new(asset_manager: &mut AssetManager) -> Player {
+        // load sprite
+        let path = Path::new("./assets/playerShip1_red.png");
+        let id = asset_manager.sprites.load_from_path(path).unwrap();
+
+        Player{loc: Vec2F::new(), vel: Vec2F::new(), sprite: id}
+    }
 }
 
 trait MobileUnit {

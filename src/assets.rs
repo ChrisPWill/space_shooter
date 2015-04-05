@@ -16,15 +16,15 @@ impl SpriteManager {
         SpriteManager{sprite_map: HashMap::<u64, Sprite<Texture>>::new(), prev_max_id: 1, deleted_ids: Vec::<u64>::new()}
     }
 
-    fn get(&self, id: &u64) -> Option<&Sprite<Texture>> {
+    pub fn get(&self, id: &u64) -> Option<&Sprite<Texture>> {
         self.sprite_map.get(id)
     }
 
-    fn get_mut(&mut self, id: &u64) -> Option<&mut Sprite<Texture>> {
+    pub fn get_mut(&mut self, id: &u64) -> Option<&mut Sprite<Texture>> {
         self.sprite_map.get_mut(id)
     }
 
-    fn load_from_path(&mut self, path: &Path) -> Result<u64, &str> {
+    pub fn load_from_path(&mut self, path: &Path) -> Result<u64, &str> {
         let deleted_ids = &mut self.deleted_ids;
         let prev_max_id = &mut self.prev_max_id;
 
