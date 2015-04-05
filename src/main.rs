@@ -10,27 +10,24 @@ pub mod entity;
 use std::cell::RefCell;
 use std::rc::Rc;
 use opengl_graphics::{
-    GlGraphics,
     OpenGL,
-    Texture,
 };
 use sdl2_window::Sdl2Window;
 
 fn main() {
-    let (win_width, win_height) = (1280, 720);
-    let mut window = Sdl2Window::new(
+    let win_size = piston::window::Size{width: 1280, height: 720};
+    let window_settings = piston::window::WindowSettings::new(
+        "Space Game".to_string(),
+        win_size
+        ).fullscreen(false).exit_on_esc(true).samples(0);
+
+    let window = Sdl2Window::new(
         OpenGL::_3_2,
-        piston::window::WindowSettings {
-            title: "Space Game".to_string(),
-            size: [win_width, win_height],
-            fullscreen: false,
-            exit_on_esc: true,
-            samples: 0,
-        }
+        window_settings,
     );
 
     let window = Rc::new(RefCell::new(window));
 
-    for e in piston::events(window) {
+    for _ in piston::events(window) {
     }
 }
