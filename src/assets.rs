@@ -13,7 +13,7 @@ pub struct SpriteManager {
 
 impl SpriteManager {
     fn new() -> SpriteManager {
-        SpriteManager{sprite_map: HashMap::<u64, Sprite<Texture>>::new(), prev_max_id: 0, deleted_ids: Vec::<u64>::new()}
+        SpriteManager{sprite_map: HashMap::<u64, Sprite<Texture>>::new(), prev_max_id: 1, deleted_ids: Vec::<u64>::new()}
     }
 
     fn get(&self, id: &u64) -> Option<&Sprite<Texture>> {

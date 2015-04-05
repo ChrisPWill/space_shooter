@@ -3,6 +3,7 @@ use super::types::Vec2F;
 struct Player {
     loc: Vec2F,
     vel: Vec2F,
+    sprite: u64,
 }
 
 trait MobileUnit {
@@ -32,9 +33,4 @@ impl Drawable for Player {
     fn draw(&self) {
     }
 
-    // Make textures some sort of static so they are only loaded once per
-    // asset type.
-    //
-    //fn init_textures() {
-    //}
 }
