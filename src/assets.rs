@@ -27,6 +27,7 @@ impl SpriteManager {
     fn load_from_path(&mut self, path: &Path) -> Result<u64, &str> {
         let deleted_ids = &mut self.deleted_ids;
         let prev_max_id = &mut self.prev_max_id;
+
         let id = 
             if deleted_ids.is_empty() { 
                 if *prev_max_id == u64::max_value() { return Err("no available ids") }
@@ -41,6 +42,7 @@ impl SpriteManager {
                 Err(_)  => { return Err("couldn't load texture from path");},
             }
             );
+
         let sprite = Sprite::from_texture(tex.clone());
 
         match self.sprite_map.insert(id.clone(), sprite) {
