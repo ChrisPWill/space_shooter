@@ -9,14 +9,14 @@ use sprite::Sprite;
 use opengl_graphics::Texture;
 use uuid::Uuid;
 
-struct Player {
+pub struct Player {
     loc: vecmath::Vector2<f64>,
     vel: vecmath::Vector2<f64>,
     sprite: Uuid,
 }
 
 impl Player {
-    fn new(scene: &mut sprite::Scene<Texture>) -> Player {
+    pub fn new(scene: &mut sprite::Scene<Texture>) -> Player {
         // load sprite
         let path = Path::new("./assets/playerShip1_red.png");
         let tex  = Rc::new(
@@ -26,6 +26,8 @@ impl Player {
             }
             );
         let sprite = Sprite::from_texture(tex.clone());
+
+        // add sprite to scene
         let id = scene.add_child(sprite);
 
         Player{loc: [0.0, 0.0], vel: [0.0, 0.0], sprite: id}
@@ -52,7 +54,7 @@ impl MobileUnit for Player {
     }
 }
 
-trait Drawable {
+pub trait Drawable {
     fn draw(&self, scene: &mut sprite::Scene<Texture>, render_args: event::RenderArgs);
 }
 
