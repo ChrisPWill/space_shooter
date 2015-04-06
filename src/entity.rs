@@ -1,21 +1,32 @@
 use std::path::Path;
+use std::rc::Rc;
 
 use vecmath;
-use piston::event;
+use sprite;
 
-use super::assets::AssetManager;
+use piston::event;
+use sprite::Sprite;
+use opengl_graphics::Texture;
+use uuid::Uuid;
 
 struct Player {
     loc: vecmath::Vector2<f64>,
     vel: vecmath::Vector2<f64>,
-    sprite: u64,
+    sprite: Uuid,
 }
 
 impl Player {
-    fn new(asset_manager: &mut AssetManager) -> Player {
+    fn new(scene: &mut sprite::Scene<Texture>) -> Player {
         // load sprite
         let path = Path::new("./assets/playerShip1_red.png");
-        let id = asset_manager.sprites.load_from_path(path).unwrap();
+        let tex  = Rc::new(
+            match Texture::from_path(&path) {
+                Ok(tex) => tex,
+                Err(_)  => { panic!("couldn't load texture from path"); },
+            }
+            );
+        let sprite = Sprite::from_texture(tex.clone());
+        let id = scene.add_child(sprite);
 
         Player{loc: [0.0, 0.0], vel: [0.0, 0.0], sprite: id}
     }
@@ -42,12 +53,12 @@ impl MobileUnit for Player {
 }
 
 trait Drawable {
-    fn draw(&self, asset_manager: &mut AssetManager, render_args: event::RenderArgs);
+    fn draw(&self, scene: &mut sprite::Scene<Texture>, render_args: event::RenderArgs);
 }
 
 impl Drawable for Player {
-    fn draw(&self, asset_manager: &mut AssetManager, render_args: event::RenderArgs) {
-        let mut sprite = asset_manager.sprites.get_mut(&self.sprite)
+    fn draw(&self, scene: &mut sprite::Scene<Texture>, render_args: event::RenderArgs) {
+        let mut sprite = scene.child_mut(self.sprite)
             .expect("couldn't retrieve sprite asset");
 
         let rect = sprite.bounding_box(); 

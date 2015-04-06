@@ -20,3 +20,6 @@ git = "https://github.com/PistonDevelopers/sprite"
 
 [dependencies.vecmath]
 git = "https://github.com/PistonDevelopers/vecmath"
+
+[dependencies.uuid]
+git = "https://github.com/rust-lang/uuid"

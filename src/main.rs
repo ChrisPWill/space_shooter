@@ -5,9 +5,9 @@ extern crate sdl2_window;
 extern crate opengl_graphics;
 extern crate sprite;
 extern crate vecmath;
+extern crate uuid;
 
 pub mod entity;
-pub mod assets;
 
 use std::cell::RefCell;
 use std::rc::Rc;
