@@ -1,13 +1,13 @@
 use std::path::Path;
 
+use vecmath;
 use piston::event;
 
-use super::types::Vec2F;
 use super::assets::AssetManager;
 
 struct Player {
-    loc: Vec2F,
-    vel: Vec2F,
+    loc: vecmath::Vector2<f64>,
+    vel: vecmath::Vector2<f64>,
     sprite: u64,
 }
 
@@ -17,7 +17,7 @@ impl Player {
         let path = Path::new("./assets/playerShip1_red.png");
         let id = asset_manager.sprites.load_from_path(path).unwrap();
 
-        Player{loc: Vec2F::new(), vel: Vec2F::new(), sprite: id}
+        Player{loc: [0.0, 0.0], vel: [0.0, 0.0], sprite: id}
     }
 }
 
@@ -30,13 +30,14 @@ trait MobileUnit {
 
 impl MobileUnit for Player {
     fn update(&mut self, time_delta: i64) {
-        self.loc = self.loc.clone() + self.vel.clone()*((time_delta as f64)/1000.0);
+        self.loc = vecmath::vec2_add(self.loc.clone(), 
+            vecmath::vec2_scale(self.vel.clone(), ((time_delta as f64)/1000.0)));
     }
     fn set_vel_x(&mut self, vel_x: f64) {
-        self.vel.x = vel_x;
+        self.vel[0] = vel_x;
     }
     fn set_vel_y(&mut self, vel_y: f64) {
-        self.vel.y = vel_y;
+        self.vel[1] = vel_y;
     }
 }
 
@@ -50,7 +51,7 @@ impl Drawable for Player {
             .expect("couldn't retrieve sprite asset");
 
         let rect = sprite.bounding_box(); 
-        sprite.set_position(render_args.width as f64/2.0 + self.loc.x, render_args.height as f64 - self.loc.y - rect[3]);
+        sprite.set_position(render_args.width as f64/2.0 + self.loc[0], render_args.height as f64 - self.loc[1] - rect[3]);
     }
 
 }

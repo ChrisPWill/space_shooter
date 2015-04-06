@@ -4,8 +4,8 @@ extern crate graphics;
 extern crate sdl2_window;
 extern crate opengl_graphics;
 extern crate sprite;
+extern crate vecmath;
 
-pub mod types;
 pub mod entity;
 pub mod assets;
 

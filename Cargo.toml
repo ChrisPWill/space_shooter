@@ -17,3 +17,6 @@ git = "https://github.com/pistondevelopers/graphics"
 
 [dependencies.piston2d-sprite]
 git = "https://github.com/PistonDevelopers/sprite"
+
+[dependencies.vecmath]
+git = "https://github.com/PistonDevelopers/vecmath"
