@@ -1,5 +1,7 @@
 use std::path::Path;
 
+use piston::event;
+
 use super::types::Vec2F;
 use super::assets::AssetManager;
 
@@ -39,11 +41,16 @@ impl MobileUnit for Player {
 }
 
 trait Drawable {
-    fn draw(&self);
+    fn draw(&self, asset_manager: &mut AssetManager, render_args: event::RenderArgs);
 }
 
 impl Drawable for Player {
-    fn draw(&self) {
+    fn draw(&self, asset_manager: &mut AssetManager, render_args: event::RenderArgs) {
+        let mut sprite = asset_manager.sprites.get_mut(&self.sprite)
+            .expect("couldn't retrieve sprite asset");
+
+        let rect = sprite.bounding_box(); 
+        sprite.set_position(render_args.width as f64/2.0 + self.loc.x, render_args.height as f64 - self.loc.y - rect[3]);
     }
 
 }

@@ -12,7 +12,7 @@ pub struct SpriteManager {
 }
 
 impl SpriteManager {
-    fn new() -> SpriteManager {
+    pub fn new() -> SpriteManager {
         SpriteManager{sprite_map: HashMap::<u64, Sprite<Texture>>::new(), prev_max_id: 1, deleted_ids: Vec::<u64>::new()}
     }
 
