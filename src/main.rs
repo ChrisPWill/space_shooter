@@ -67,12 +67,13 @@ fn main() {
         }
         if let Some(args) = e.update_args() {
             player.update(args.dt);
-            // update movement
+            // update horizontal movement
             match moving {
                 [true , _, false, _] => {player.set_vel_x(-500.0);},
                 [false, _, true , _] => {player.set_vel_x(500.0);},
                 [_    , _, _    , _] => {player.set_vel_x(0.0);},
             }
+            // update vertical movement
             match moving {
                 [_, true , _, false] => {player.set_vel_y(500.0);},
                 [_, false, _, true ] => {player.set_vel_y(-500.0);},
