@@ -34,17 +34,17 @@ impl Player {
     }
 }
 
-trait MobileUnit {
-    fn update(&mut self, time_delta: i64);
+pub trait MobileUnit {
+    fn update(&mut self, time_delta: f64);
 
     fn set_vel_x(&mut self, velX: f64);
     fn set_vel_y(&mut self, velY: f64);
 }
 
 impl MobileUnit for Player {
-    fn update(&mut self, time_delta: i64) {
+    fn update(&mut self, time_delta: f64) {
         self.loc = vecmath::vec2_add(self.loc.clone(), 
-            vecmath::vec2_scale(self.vel.clone(), ((time_delta as f64)/1000.0)));
+            vecmath::vec2_scale(self.vel.clone(), time_delta));
     }
     fn set_vel_x(&mut self, vel_x: f64) {
         self.vel[0] = vel_x;
