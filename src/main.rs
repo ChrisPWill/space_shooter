@@ -88,7 +88,7 @@ fn main() {
             player.draw(&mut scene, args);
 
             gl.draw([0, 0, args.width as i32, args.height as i32], |c, gl| {
-                graphics::clear([1.0, 1.0, 1.0, 1.0], gl);
+                graphics::clear([0.0, 0.0, 0.0, 1.0], gl);
                 scene.draw(c.transform, gl);
             });
         }
