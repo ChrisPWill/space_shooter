@@ -9,6 +9,17 @@ use sprite::Sprite;
 use opengl_graphics::Texture;
 use uuid::Uuid;
 
+pub trait Drawable {
+    fn draw(&self, scene: &mut sprite::Scene<Texture>, render_args: event::RenderArgs);
+}
+
+pub trait MobileUnit {
+    fn update(&mut self, time_delta: f64);
+
+    fn set_vel_x(&mut self, velX: f64);
+    fn set_vel_y(&mut self, velY: f64);
+}
+
 pub struct Player {
     loc: vecmath::Vector2<f64>,
     vel: vecmath::Vector2<f64>,
@@ -34,13 +45,6 @@ impl Player {
     }
 }
 
-pub trait MobileUnit {
-    fn update(&mut self, time_delta: f64);
-
-    fn set_vel_x(&mut self, velX: f64);
-    fn set_vel_y(&mut self, velY: f64);
-}
-
 impl MobileUnit for Player {
     fn update(&mut self, time_delta: f64) {
         self.loc = vecmath::vec2_add(self.loc.clone(), 
@@ -54,17 +58,14 @@ impl MobileUnit for Player {
     }
 }
 
-pub trait Drawable {
-    fn draw(&self, scene: &mut sprite::Scene<Texture>, render_args: event::RenderArgs);
-}
-
 impl Drawable for Player {
     fn draw(&self, scene: &mut sprite::Scene<Texture>, render_args: event::RenderArgs) {
         let mut sprite = scene.child_mut(self.sprite)
             .expect("couldn't retrieve sprite asset");
 
         let rect = sprite.bounding_box(); 
-        sprite.set_position(render_args.width as f64/2.0 + self.loc[0], render_args.height as f64 - self.loc[1] - rect[3]);
+        sprite.set_position(render_args.width as f64/2.0 + self.loc[0], 
+                            render_args.height as f64 - self.loc[1] - rect[3]);
     }
 
 }
