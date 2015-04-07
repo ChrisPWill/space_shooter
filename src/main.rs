@@ -39,9 +39,12 @@ fn main() {
     let ref mut gl = GlGraphics::new(opengl);
     let window = Rc::new(RefCell::new(window));
     let mut scene = sprite::Scene::new();
+
     let mut player = entity::Player::new(&mut scene);
+
     // left, up, right, down
     let mut moving = [false; 4];
+
     for e in piston::events(window) {
         use piston::event::*;
 
