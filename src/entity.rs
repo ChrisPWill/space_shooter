@@ -43,12 +43,22 @@ impl Player {
 
         Player{loc: [0.0, 0.0], vel: [0.0, 0.0], sprite: id}
     }
+
+    fn set_position(&mut self, x: f64, y: f64) {
+        self.loc = [x, y];
+    }
 }
 
 impl MobileUnit for Player {
     fn update(&mut self, time_delta: f64) {
         self.loc = vecmath::vec2_add(self.loc.clone(), 
             vecmath::vec2_scale(self.vel.clone(), time_delta));
+
+        // Ensure ship stays within boundaries
+        if self.loc[0] >  640.0 { let y = self.loc[1]; self.set_position( 640.0,     y); }
+        if self.loc[0] < -640.0 { let y = self.loc[1]; self.set_position(-640.0,     y); }
+        if self.loc[1] >  600.0 { let x = self.loc[0]; self.set_position(     x, 600.0); }
+        if self.loc[1] <    0.0 { let x = self.loc[0]; self.set_position(     x,   0.0); }
     }
     fn set_vel_x(&mut self, vel_x: f64) {
         self.vel[0] = vel_x;
@@ -64,8 +74,15 @@ impl Drawable for Player {
             .expect("couldn't retrieve sprite asset");
 
         let rect = sprite.bounding_box(); 
+<<<<<<< HEAD
         sprite.set_position(render_args.width as f64/2.0 + self.loc[0], 
                             render_args.height as f64 - self.loc[1] - rect[3]);
+=======
+        let width_mult  = render_args.width as f64/1280.0;
+        let height_mult = render_args.height as f64/720.0;
+        sprite.set_position(render_args.width as f64/2.0 + (self.loc[0]*width_mult), 
+                            render_args.height as f64 - (self.loc[1]*height_mult) - rect[3]);
+>>>>>>> 1fca9f7c4cedd3b37b8569cc53a8793d2eb22b4a
     }
 
 }
