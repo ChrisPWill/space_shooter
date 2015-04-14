@@ -16,6 +16,7 @@ use entity::{Drawable, MobileUnit};
 use std::cell::RefCell;
 use std::rc::Rc;
 
+use piston::event::*;
 use opengl_graphics::{
     GlGraphics,
     OpenGL,
@@ -45,7 +46,7 @@ fn main() {
     // left, up, right, down
     let mut moving = [false; 4];
 
-    for e in piston::events(window) {
+    for e in window.events() {
         use piston::event::*;
 
         scene.event(&e);
@@ -87,7 +88,7 @@ fn main() {
             use graphics::*;
             player.draw(&mut scene, args);
 
-            gl.draw([0, 0, args.width as i32, args.height as i32], |c, gl| {
+            gl.draw(args.viewport(), |c, gl| {
                 graphics::clear([0.0, 0.0, 0.0, 1.0], gl);
                 scene.draw(c.transform, gl);
             });
