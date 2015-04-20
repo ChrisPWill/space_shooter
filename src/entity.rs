@@ -27,8 +27,12 @@ pub trait MobileUnit {
     fn update_pos(&mut self, time_delta: f64);
 
     /// Updates the velocity in the x axis.
+    /// 
+    /// `velX` is in units/second
     fn set_vel_x(&mut self, velX: f64);
     /// Updates the velocity in the y axis.
+    /// 
+    /// `velY` is in units/second
     fn set_vel_y(&mut self, velY: f64);
 }
 
@@ -79,6 +83,10 @@ impl Player {
 }
 
 impl MobileUnit for Player {
+    /// Updates the position of a `Player` based on its current velocity.
+    ///
+    /// This the takes `time_delta` (in seconds) since the last position update
+    /// and updates the position avvording to currently stored velocity.
     fn update_pos(&mut self, time_delta: f64) {
         self.loc = vecmath::vec2_add(self.loc.clone(), 
             vecmath::vec2_scale(self.vel.clone(), time_delta));
@@ -89,15 +97,20 @@ impl MobileUnit for Player {
         if self.loc[1] >  640.0 { let x = self.loc[0]; self.set_position(     x, 640.0); }
         if self.loc[1] <   40.0 { let x = self.loc[0]; self.set_position(     x,  40.0); }
     }
+
+    /// Sets the velocity of a `Player` on the x axis.
     fn set_vel_x(&mut self, vel_x: f64) {
         self.vel[0] = vel_x;
     }
+
+    /// Sets the velocity of a `Player` on the y axis.
     fn set_vel_y(&mut self, vel_y: f64) {
         self.vel[1] = vel_y;
     }
 }
 
 impl Drawable for Player {
+    /// Draws the `Player` to the screen.
     fn draw(&self, scene: &mut sprite::Scene<Texture>, render_args: event::RenderArgs) {
         let mut sprite = scene.child_mut(self.sprite)
             .expect("couldn't retrieve sprite asset");
@@ -117,9 +130,19 @@ pub struct Projectile {
 }
 
 impl Projectile {
-    pub fn new(sprite_id: Uuid, loc: vecmath::Vector2<f64>, y_vel: f64) -> Projectile {
+    /// Generates a new `Projectile`
+    ///
+    /// Takes a previously loaded `sprite_id` to be used as its sprite, in
+    /// addition to an initial location (`loc`) and an initial y velocity (
+    /// `y_vel`)
+    pub fn new(sprite_id: Uuid, loc: vecmath::Vector2<f64>, y_vel: f64) 
+        -> Projectile {
         Projectile{loc: loc, vel: [0.0, y_vel], sprite: sprite_id}
     }
+    /// Updates the projectile based on the `time_delta` since the previous
+    /// update. 
+    ///
+    /// `time_delta` is in seconds.
     pub fn update(&mut self, time_delta: f64) {
         self.update_pos(time_delta);
     }
@@ -153,11 +176,14 @@ impl Drawable for Projectile {
 }
 
 struct Turret {
-    loc: vecmath::Vector2<f64>, // relative to ship origin
-    rot: f64, // clockwise from +x axis
+    loc: vecmath::Vector2<f64>, // units relative to ship origin
+    rot: f64, // radians clockwise from +x axis
 }
 
 impl Turret {
+    /// Sets the direction towards which the turret is pointed.
+    ///
+    /// `r` is measured in radians clockwise from the positive x axis.
     fn set_rotation(&mut self, r: f64) {
         self.rot = r;
     }
