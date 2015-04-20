@@ -2,6 +2,7 @@ use std::path::Path;
 use std::rc::Rc;
 
 use vecmath;
+use vecmath::Vector2;
 use sprite;
 
 use piston::event;
@@ -40,9 +41,9 @@ pub trait MobileUnit {
 /// should have.
 pub struct Player {
     /// The location of the `Player` relative to the origin (the centre-bottom)
-    loc: vecmath::Vector2<f64>,
+    loc: Vector2<f64>,
     /// The velocity of the `Player`
-    vel: vecmath::Vector2<f64>,
+    vel: Vector2<f64>,
     /// The sprite ID assigned to the sprite used for the current `Player` ship
     sprite: Uuid,
 }
@@ -119,13 +120,14 @@ impl Drawable for Player {
         let height_mult = render_args.height as f64/720.0;
         sprite.set_position(render_args.width as f64/2.0 + (self.loc[0]*width_mult), 
                             render_args.height as f64 - (self.loc[1]*height_mult));
+        sprite.set_scale(width_mult, height_mult);
     }
 
 }
 
 pub struct Projectile {
-    loc: vecmath::Vector2<f64>,
-    vel: vecmath::Vector2<f64>,
+    loc: Vector2<f64>,
+    vel: Vector2<f64>,
     sprite: Uuid,
 }
 
@@ -133,11 +135,10 @@ impl Projectile {
     /// Generates a new `Projectile`
     ///
     /// Takes a previously loaded `sprite_id` to be used as its sprite, in
-    /// addition to an initial location (`loc`) and an initial y velocity (
-    /// `y_vel`)
-    pub fn new(sprite_id: Uuid, loc: vecmath::Vector2<f64>, y_vel: f64) 
+    /// addition to an initial location (`loc`) and an initial velocity ( `vel`)
+    pub fn new(sprite_id: Uuid, loc: Vector2<f64>, vel: Vector2<f64>) 
         -> Projectile {
-        Projectile{loc: loc, vel: [0.0, y_vel], sprite: sprite_id}
+        Projectile{loc: loc, vel: vel, sprite: sprite_id}
     }
     /// Updates the projectile based on the `time_delta` since the previous
     /// update. 
@@ -176,8 +177,8 @@ impl Drawable for Projectile {
 }
 
 struct Turret {
-    loc: vecmath::Vector2<f64>, // units relative to ship origin
-    rot: f64, // radians clockwise from +x axis
+    loc: Vector2<f64>, // units relative to ship origin
+    rot: f64, // radians clockwise from +x axis of the entity
 }
 
 impl Turret {
